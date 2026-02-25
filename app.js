@@ -141,6 +141,7 @@ function handleFile(file, type) {
         reader.onload = (e) => {
             previewFront.src = e.target.result;
             previewFront.style.display = 'block';
+            uploadAreaFront.classList.add('has-image');
         };
         reader.readAsDataURL(file);
         
@@ -152,6 +153,7 @@ function handleFile(file, type) {
         reader.onload = (e) => {
             previewBack.src = e.target.result;
             previewBack.style.display = 'block';
+            uploadAreaBack.classList.add('has-image');
         };
         reader.readAsDataURL(file);
     }
@@ -492,6 +494,10 @@ function resetForm() {
     aiResults.style.display = 'none';
     fileInputFront.value = '';
     fileInputBack.value = '';
+    
+    // Upload alanlarından has-image class'ını kaldır
+    uploadAreaFront.classList.remove('has-image');
+    uploadAreaBack.classList.remove('has-image');
     
     // Giyim türü butonlarını sıfırla
     ustGiyimBtn.classList.remove('active');
