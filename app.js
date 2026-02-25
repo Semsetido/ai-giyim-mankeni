@@ -5,8 +5,8 @@ const CONFIG = {
         ? 'http://localhost:5000'  // Local development
         : 'https://ai-giyim-mankeni-production.up.railway.app',  // Production (Railway)
     
-    // Replicate API Token
-    REPLICATE_API_KEY: 'r8_UtBmk4SkBr1nWB0UhNC7iV3PhmTBkrJ07Bdwn',
+    // Replicate API Token (artık backend Railway'den okuyor - bu eski token)
+    REPLICATE_API_KEY: '',
     
     // Replicate Model (google/nano-banana-pro)
     REPLICATE_MODEL: 'google/nano-banana-pro',

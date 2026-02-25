@@ -42,7 +42,9 @@ app.get('/', (req, res) => {
 // Replicate API'ye istek oluştur
 app.post('/api/replicate/predict', async (req, res) => {
   try {
-    const { apiKey, model, input } = req.body;
+    // Railway environment variable'dan token oku
+    const apiKey = process.env.REPLICATE_API_KEY || req.body.apiKey;
+    const { model, input } = req.body;
 
     if (!apiKey || !model || !input) {
       return res.status(400).json({ 
