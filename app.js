@@ -6,7 +6,7 @@ const CONFIG = {
         : 'https://ai-giyim-mankeni-production.up.railway.app',  // Production (Railway)
     
     // Replicate API Token
-    REPLICATE_API_KEY: 'r8_bAiiRZkmcoMQ1xKPujrhwQlKMEaKLRc3ipJUa',
+    REPLICATE_API_KEY: 'r8_UtBmk4SkBr1nWB0UhNC7iV3PhmTBkrJ07Bdwn',
     
     // Replicate Model (google/nano-banana-pro)
     REPLICATE_MODEL: 'google/nano-banana-pro',
