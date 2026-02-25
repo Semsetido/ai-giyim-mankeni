@@ -27,6 +27,9 @@ app.use(cors({
 
 app.use(express.json({ limit: '50mb' })); // Büyük base64 görseller için
 
+// OPTIONS handler for CORS preflight
+app.options('*', cors());
+
 // Health check
 app.get('/', (req, res) => {
   res.json({ 
