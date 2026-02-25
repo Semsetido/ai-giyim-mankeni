@@ -90,7 +90,8 @@ app.post('/api/replicate/predict', async (req, res) => {
 app.get('/api/replicate/prediction/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const apiKey = req.headers.authorization?.replace('Bearer ', '');
+    // Railway environment variable'dan token oku
+    const apiKey = process.env.REPLICATE_API_KEY || req.headers.authorization?.replace('Bearer ', '');
 
     if (!apiKey) {
       return res.status(401).json({ error: 'API key required in Authorization header' });
