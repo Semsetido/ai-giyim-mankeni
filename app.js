@@ -3,7 +3,7 @@ const CONFIG = {
     // Backend API URL - Otomatik olarak doğru URL'i seçer
     BACKEND_URL: window.location.hostname === 'localhost' 
         ? 'http://localhost:5000'  // Local development
-        : 'https://YOUR_RAILWAY_URL_HERE',  // Production (Railway deploy sonrası güncellenecek)
+        : 'https://ai-giyim-mankeni-production.up.railway.app',  // Production (Railway)
     
     // Replicate API Token
     REPLICATE_API_KEY: 'r8_bAiiRZkmcoMQ1xKPujrhwQlKMEaKLRc3ipJUa',
