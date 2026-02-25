@@ -8,8 +8,8 @@ const CONFIG = {
     // Replicate API Token (artık backend Railway'den okuyor - bu eski token)
     REPLICATE_API_KEY: '',
     
-    // Replicate Model (google/nano-banana-pro)
-    REPLICATE_MODEL: 'google/nano-banana-pro',
+    // Replicate Model (google/nano-banana - DÜZ MODEL)
+    REPLICATE_MODEL: 'google/nano-banana',
     
     // Google Apps Script URL
     GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzGJmSmrtxMtbcThceTgRmRzQQrdsHAiF5QKVdCg8DMspO2QfP23noxZCaWJTJCSoaQ/exec',
