@@ -14,8 +14,17 @@ const httpsAgent = new https.Agent({
   rejectUnauthorized: NODE_ENV === 'production' ? true : false
 });
 
-// CORS'u tüm origin'lere aç
-app.use(cors());
+// CORS ayarları - Netlify'den gelen istekleri kabul et
+app.use(cors({
+  origin: [
+    'https://astonishing-khapse-a1ffa7.netlify.app',
+    'http://localhost:8000'
+  ],
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'],
+  credentials: true
+}));
+
 app.use(express.json({ limit: '50mb' })); // Büyük base64 görseller için
 
 // Health check
