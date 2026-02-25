@@ -36,6 +36,8 @@ const uploadAreaFront = document.getElementById('uploadAreaFront');
 const uploadAreaBack = document.getElementById('uploadAreaBack');
 const fileInputFront = document.getElementById('fileInputFront');
 const fileInputBack = document.getElementById('fileInputBack');
+const fileInputFrontCamera = document.getElementById('fileInputFrontCamera');
+const fileInputBackCamera = document.getElementById('fileInputBackCamera');
 const previewFront = document.getElementById('previewFront');
 const previewBack = document.getElementById('previewBack');
 const aiBtn = document.getElementById('aiBtn');
@@ -44,10 +46,51 @@ const loading = document.getElementById('loading');
 const aiResults = document.getElementById('aiResults');
 const result = document.getElementById('result');
 
+// Modal elementleri
+const uploadModal = document.getElementById('uploadModal');
+const modalCameraBtn = document.getElementById('modalCameraBtn');
+const modalGalleryBtn = document.getElementById('modalGalleryBtn');
+const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+// Modal için hangi input kullanılacak (front/back)
+let currentUploadType = null;
+
 // Giyim türü butonları
 const ustGiyimBtn = document.getElementById('ustGiyimBtn');
 const altGiyimBtn = document.getElementById('altGiyimBtn');
 const elbiseBtn = document.getElementById('elbiseBtn');
+
+// Modal buton olayları
+modalCameraBtn.addEventListener('click', () => {
+    uploadModal.classList.remove('active');
+    if (currentUploadType === 'front') {
+        fileInputFrontCamera.click();
+    } else if (currentUploadType === 'back') {
+        fileInputBackCamera.click();
+    }
+});
+
+modalGalleryBtn.addEventListener('click', () => {
+    uploadModal.classList.remove('active');
+    if (currentUploadType === 'front') {
+        fileInputFront.click();
+    } else if (currentUploadType === 'back') {
+        fileInputBack.click();
+    }
+});
+
+modalCloseBtn.addEventListener('click', () => {
+    uploadModal.classList.remove('active');
+    currentUploadType = null;
+});
+
+// Modal dışına tıklanınca kapat
+uploadModal.addEventListener('click', (e) => {
+    if (e.target === uploadModal) {
+        uploadModal.classList.remove('active');
+        currentUploadType = null;
+    }
+});
 
 // Giyim türü buton tıklama olayları
 ustGiyimBtn.addEventListener('click', () => {
@@ -73,10 +116,18 @@ elbiseBtn.addEventListener('click', () => {
 
 // ÖN GÖRSEL - Dosya yükleme olayları
 uploadAreaFront.addEventListener('click', () => {
-    fileInputFront.click();
+    currentUploadType = 'front';
+    uploadModal.classList.add('active');
 });
 
 fileInputFront.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        handleFile(file, 'front');
+    }
+});
+
+fileInputFrontCamera.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (file) {
         handleFile(file, 'front');
@@ -103,10 +154,18 @@ uploadAreaFront.addEventListener('drop', (e) => {
 
 // ARKA GÖRSEL - Dosya yükleme olayları
 uploadAreaBack.addEventListener('click', () => {
-    fileInputBack.click();
+    currentUploadType = 'back';
+    uploadModal.classList.add('active');
 });
 
 fileInputBack.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        handleFile(file, 'back');
+    }
+});
+
+fileInputBackCamera.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (file) {
         handleFile(file, 'back');

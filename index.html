@@ -409,6 +409,114 @@
             box-shadow: 0 15px 40px rgba(220, 20, 60, 0.5);
         }
         
+        /* Upload Modal */
+        .upload-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .upload-modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: linear-gradient(145deg, #1f1f1f, #141414);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            border: 2px solid rgba(220, 20, 60, 0.3);
+            box-shadow: 0 25px 70px rgba(220, 20, 60, 0.4);
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-title {
+            color: #ff6b6b;
+            font-size: 22px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .modal-btn {
+            padding: 18px;
+            border: 2px solid #333;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #1f1f1f, #141414);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .modal-btn:hover {
+            border-color: #dc143c;
+            background: linear-gradient(145deg, #252525, #1a1a1a);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.3);
+        }
+        
+        .modal-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .modal-close {
+            margin-top: 20px;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            color: #999;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+            transition: color 0.3s;
+        }
+        
+        .modal-close:hover {
+            color: #ff6b6b;
+        }
+        
         .upload-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -473,6 +581,7 @@
                         <p class="upload-text">Kıyafetin Önü</p>
                     </div>
                     <input type="file" id="fileInputFront" accept="image/*" style="display: none;">
+                    <input type="file" id="fileInputFrontCamera" accept="image/*" capture="environment" style="display: none;">
                     <img id="previewFront" class="preview">
                 </div>
             </div>
@@ -489,6 +598,7 @@
                         <p class="upload-text">Kıyafetin Arkası</p>
                     </div>
                     <input type="file" id="fileInputBack" accept="image/*" style="display: none;">
+                    <input type="file" id="fileInputBackCamera" accept="image/*" capture="environment" style="display: none;">
                     <img id="previewBack" class="preview">
                 </div>
             </div>
@@ -557,6 +667,31 @@
         
         <!-- Sonuç Mesajı -->
         <div class="result" id="result"></div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="upload-modal" id="uploadModal">
+        <div class="modal-content">
+            <h3 class="modal-title">Görsel Seçin</h3>
+            <div class="modal-buttons">
+                <button class="modal-btn" id="modalCameraBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                        <circle cx="12" cy="13" r="4"></circle>
+                    </svg>
+                    Kamera ile Çek
+                </button>
+                <button class="modal-btn" id="modalGalleryBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                    Galeriden Seç
+                </button>
+            </div>
+            <button class="modal-close" id="modalCloseBtn">İptal</button>
+        </div>
     </div>
 
     <script src="app.js"></script>
