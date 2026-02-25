@@ -51,6 +51,7 @@ app.post('/api/replicate/predict', async (req, res) => {
     }
 
     console.log(`📤 Replicate'e istek gönderiliyor: ${model}`);
+    console.log(`   API Key alındı: ${apiKey ? 'Evet (uzunluk: ' + apiKey.length + ')' : 'HAYıR!'}`);
     console.log(`   Prompt: ${input.prompt.substring(0, 50)}...`);
 
     const response = await fetch(`https://api.replicate.com/v1/models/${model}/predictions`, {
