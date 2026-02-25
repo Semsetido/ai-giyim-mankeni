@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manken Görselleri Yükleyici</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a0000 50%, #330000 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 25px 70px rgba(220, 20, 60, 0.3);
+            border: 1px solid rgba(220, 20, 60, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            background: linear-gradient(135deg, #ff0844 0%, #ff6b6b 50%, #dc143c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .info {
+            background: rgba(220, 20, 60, 0.1);
+            border-left: 4px solid #dc143c;
+            padding: 20px;
+            margin-bottom: 40px;
+            border-radius: 10px;
+            color: #ff6b6b;
+        }
+        
+        .info h3 {
+            margin-bottom: 10px;
+            color: #ff0844;
+        }
+        
+        .info ul {
+            margin-left: 20px;
+            color: #ccc;
+        }
+        
+        .info li {
+            margin: 5px 0;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .upload-card {
+            background: linear-gradient(145deg, #1f1f1f, #141414);
+            border: 2px solid #333;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .upload-card h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        
+        .upload-card .icon {
+            font-size: 60px;
+            margin: 20px 0;
+        }
+        
+        .upload-area {
+            border: 3px dashed #dc143c;
+            border-radius: 15px;
+            padding: 40px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 20px 0;
+        }
+        
+        .upload-area:hover {
+            border-color: #ff0844;
+            background: rgba(220, 20, 60, 0.1);
+        }
+        
+        .upload-area p {
+            color: #999;
+            margin: 10px 0;
+        }
+        
+        .preview {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+            border: 2px solid rgba(220, 20, 60, 0.5);
+        }
+        
+        .filename {
+            color: #4ade80;
+            font-weight: 600;
+            margin-top: 10px;
+            word-break: break-all;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #dc143c 0%, #8b0000 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(135deg, #ff0844 0%, #dc143c 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.5);
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+        }
+        
+        .result.success {
+            background: rgba(0, 128, 0, 0.1);
+            color: #4ade80;
+            border: 2px solid #22c55e;
+        }
+        
+        .result.error {
+            background: rgba(220, 20, 60, 0.1);
+            color: #ff6b6b;
+            border: 2px solid #dc143c;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👔 Manken Görselleri Yükleyici</h1>
+        
+        <div class="info">
+            <h3>⚠️ ÖNEMLİ BİLGİLER:</h3>
+            <ul>
+                <li>Bu sayfada yüklediğin görseller tarayıcında MANUEL olarak kaydedilecek</li>
+                <li>Her görsel için <strong>İndir</strong> butonuna basıp <code>mannequins</code> klasörüne kaydet</li>
+                <li>Dosya adlarını <strong>değiştirme</strong> (ust-giyim-manken.png gibi kalmalı)</li>
+                <li>Görseller <strong>PNG</strong> formatında kaydedilecek</li>
+                <li>Arka plan temiz/beyaz olursa daha iyi sonuç alırsın</li>
+            </ul>
+        </div>
+        
+        <div class="grid">
+            <!-- Üst Giyim Mankeni -->
+            <div class="upload-card">
+                <h3>👕 Üst Giyim Mankeni</h3>
+                <div class="icon">🧥</div>
+                <div class="upload-area" id="uploadArea1" onclick="document.getElementById('file1').click()">
+                    <p>📁 Tıkla ve Görsel Seç</p>
+                    <p style="font-size: 12px;">Göğüs ve kollar gözüken manken</p>
+                </div>
+                <input type="file" id="file1" accept="image/*" style="display: none;">
+                <img id="preview1" class="preview">
+                <p class="filename" id="filename1"></p>
+                <button class="btn" id="download1" style="display: none; margin-top: 15px; padding: 10px 20px; font-size: 14px;">
+                    💾 İndir (ust-giyim-manken.png)
+                </button>
+            </div>
+            
+            <!-- Alt Giyim Mankeni -->
+            <div class="upload-card">
+                <h3>👖 Alt Giyim Mankeni</h3>
+                <div class="icon">👗</div>
+                <div class="upload-area" id="uploadArea2" onclick="document.getElementById('file2').click()">
+                    <p>📁 Tıkla ve Görsel Seç</p>
+                    <p style="font-size: 12px;">Bacaklar ve bel gözüken manken</p>
+                </div>
+                <input type="file" id="file2" accept="image/*" style="display: none;">
+                <img id="preview2" class="preview">
+                <p class="filename" id="filename2"></p>
+                <button class="btn" id="download2" style="display: none; margin-top: 15px; padding: 10px 20px; font-size: 14px;">
+                    💾 İndir (alt-giyim-manken.png)
+                </button>
+            </div>
+            
+            <!-- Elbise Mankeni -->
+            <div class="upload-card">
+                <h3>👗 Elbise Mankeni</h3>
+                <div class="icon">💃</div>
+                <div class="upload-area" id="uploadArea3" onclick="document.getElementById('file3').click()">
+                    <p>📁 Tıkla ve Görsel Seç</p>
+                    <p style="font-size: 12px;">Tüm vücut gözüken manken</p>
+                </div>
+                <input type="file" id="file3" accept="image/*" style="display: none;">
+                <img id="preview3" class="preview">
+                <p class="filename" id="filename3"></p>
+                <button class="btn" id="download3" style="display: none; margin-top: 15px; padding: 10px 20px; font-size: 14px;">
+                    💾 İndir (elbise-manken.png)
+                </button>
+            </div>
+        </div>
+        
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        // Her bir dosya inputu için event listener
+        for (let i = 1; i <= 3; i++) {
+            const fileInput = document.getElementById(`file${i}`);
+            const preview = document.getElementById(`preview${i}`);
+            const filename = document.getElementById(`filename${i}`);
+            const downloadBtn = document.getElementById(`download${i}`);
+            
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    // Önizleme göster
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                        filename.textContent = `✅ Seçildi: ${file.name}`;
+                        downloadBtn.style.display = 'block';
+                        
+                        // İndirme linki oluştur
+                        downloadBtn.onclick = () => {
+                            const link = document.createElement('a');
+                            link.href = e.target.result;
+                            
+                            // Dosya adını belirle
+                            let downloadName = '';
+                            if (i === 1) downloadName = 'ust-giyim-manken.png';
+                            else if (i === 2) downloadName = 'alt-giyim-manken.png';
+                            else if (i === 3) downloadName = 'elbise-manken.png';
+                            
+                            link.download = downloadName;
+                            link.click();
+                            
+                            showResult(`✅ ${downloadName} indirildi! Şimdi mannequins klasörüne kaydet.`, 'success');
+                        };
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        
+        function showResult(message, type) {
+            const result = document.getElementById('result');
+            result.textContent = message;
+            result.className = `result ${type}`;
+            result.style.display = 'block';
+            
+            setTimeout(() => {
+                result.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
