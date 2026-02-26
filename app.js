@@ -201,6 +201,10 @@ function handleFile(file, type) {
             previewFront.src = e.target.result;
             previewFront.style.display = 'block';
             uploadAreaFront.classList.add('has-image');
+            
+            // Modal'ı kapat
+            uploadModal.classList.remove('active');
+            currentUploadType = null;
         };
         reader.readAsDataURL(file);
         
@@ -213,6 +217,10 @@ function handleFile(file, type) {
             previewBack.src = e.target.result;
             previewBack.style.display = 'block';
             uploadAreaBack.classList.add('has-image');
+            
+            // Modal'ı kapat
+            uploadModal.classList.remove('active');
+            currentUploadType = null;
         };
         reader.readAsDataURL(file);
     }
