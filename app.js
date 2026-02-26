@@ -322,9 +322,9 @@ aiBtn.addEventListener('click', async () => {
         
         // Ön görseli kaydet
         if (Array.isArray(frontResult.output)) {
-            imageUrls.onGorsel = frontResult.output[0];
+            imageUrls.onGorsel = frontResult.cloudinary_url || frontResult.output[0];
         } else {
-            imageUrls.onGorsel = frontResult.output;
+            imageUrls.onGorsel = frontResult.cloudinary_url || frontResult.output;
         }
         
         console.log('Ön görsel URL:', imageUrls.onGorsel);
@@ -375,9 +375,9 @@ aiBtn.addEventListener('click', async () => {
         
         // Arka görseli kaydet
         if (Array.isArray(backResult.output)) {
-            imageUrls.arkaGorsel = backResult.output[0];
+            imageUrls.arkaGorsel = backResult.cloudinary_url || backResult.output[0];
         } else {
-            imageUrls.arkaGorsel = backResult.output;
+            imageUrls.arkaGorsel = backResult.cloudinary_url || backResult.output;
         }
         
         console.log('Arka görsel URL:', imageUrls.arkaGorsel);

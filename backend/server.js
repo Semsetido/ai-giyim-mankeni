@@ -2,12 +2,20 @@ const express = require('express');
 const cors = require('cors');
 const fetch = require('node-fetch');
 const https = require('https');
+const cloudinary = require('cloudinary').v2;
 
 const app = express();
 
 // Environment variables (Railway otomatik ayarlar)
 const PORT = process.env.PORT || 5000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
+
+// Cloudinary configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 // SSL sertifika doğrulaması - sadece development'ta devre dışı
 const httpsAgent = new https.Agent({
@@ -26,6 +34,22 @@ app.use(express.json({ limit: '50mb' })); // Büyük base64 görseller için
 
 // OPTIONS handler for CORS preflight
 app.options('*', cors());
+
+// Cloudinary'ye görsel yükleme fonksiyonu
+async function uploadToCloudinary(imageUrl, folder = 'ai-giyim') {
+  try {
+    console.log('📤 Cloudinary\'ye yükleniyor...');
+    const result = await cloudinary.uploader.upload(imageUrl, {
+      folder: folder,
+      resource_type: 'image'
+    });
+    console.log('✅ Cloudinary URL:', result.secure_url);
+    return result.secure_url;
+  } catch (error) {
+    console.error('❌ Cloudinary upload hatası:', error);
+    throw error;
+  }
+}
 
 // Health check
 app.get('/', (req, res) => {
@@ -76,6 +100,17 @@ app.post('/api/replicate/predict', async (req, res) => {
     const data = await response.json();
     console.log(`✅ Prediction oluşturuldu: ${data.id}`);
     
+    // Eğer sonuç hemen geldiyse (status: succeeded) Cloudinary'ye yükle
+    if (data.status === 'succeeded' && data.output) {
+      const replicateUrl = Array.isArray(data.output) ? data.output[0] : data.output;
+      try {
+        const cloudinaryUrl = await uploadToCloudinary(replicateUrl);
+        data.cloudinary_url = cloudinaryUrl; // Kalıcı URL ekle
+      } catch (cloudinaryError) {
+        console.error('⚠️ Cloudinary upload başarısız, Replicate URL kullanılacak');
+      }
+    }
+    
     res.json(data);
   } catch (error) {
     console.error('❌ Backend hatası:', error);
@@ -114,6 +149,18 @@ app.get('/api/replicate/prediction/:id', async (req, res) => {
 
     const data = await response.json();
     console.log(`   Status: ${data.status}`);
+    
+    // Eğer prediction tamamlandıysa Cloudinary'ye yükle
+    if (data.status === 'succeeded' && data.output && !data.cloudinary_url) {
+      const replicateUrl = Array.isArray(data.output) ? data.output[0] : data.output;
+      try {
+        const cloudinaryUrl = await uploadToCloudinary(replicateUrl);
+        data.cloudinary_url = cloudinaryUrl; // Kalıcı URL ekle
+        console.log('✅ Kalıcı Cloudinary URL oluşturuldu');
+      } catch (cloudinaryError) {
+        console.error('⚠️ Cloudinary upload başarısız, Replicate URL kullanılacak');
+      }
+    }
     
     res.json(data);
   } catch (error) {
